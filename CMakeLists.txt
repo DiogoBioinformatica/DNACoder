@@ -49,14 +49,14 @@ add_library(infra_db src/infra/db.cpp)
 target_include_directories(infra_db PUBLIC src)
 target_link_libraries(infra_db PUBLIC libpqxx::pqxx)
 
-add_library(api_lib src/api/sequenceserviceimpl.cpp)
+add_library(api_lib src/api/sequence_service_impl.cpp)
 target_include_directories(api_lib PUBLIC src)
 target_link_libraries(api_lib PUBLIC proto_gen engine infra_db)
 
-add_executable(grpc_server src/api/grpcservermain.cpp)
+add_executable(grpc_server src/api/grpc_server_main.cpp)
 target_link_libraries(grpc_server PRIVATE api_lib)
 
-add_executable(grpc_client src/client/grpcclientmain.cpp)
+add_executable(grpc_client src/client/grpc_client_main.cpp)
 target_link_libraries(grpc_client PRIVATE proto_gen gRPC::grpc++)
 target_include_directories(grpc_client PRIVATE ${GEN_DIR})
 

@@ -12,8 +12,8 @@
         {
             "name": "conan-release",
             "displayName": "'conan-release' config",
-            "description": "'conan-release' configure using 'Unix Makefiles' generator",
-            "generator": "Unix Makefiles",
+            "description": "'conan-release' configure using 'Ninja' generator",
+            "generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_POLICY_DEFAULT_CMP0091": "NEW",
                 "CMAKE_BUILD_TYPE": "Release"

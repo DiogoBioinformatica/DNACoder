@@ -9,7 +9,7 @@ Db::Db(const std::string &conninfo) : conn_(conninfo) {
     }
 }
 
-std::vector<SequenceRow> Db::fetchSequences() {
+std::vector<SequenceRow> Db::fetch_sequences() {
     pqxx::work txn(conn_);
     pqxx::result res = txn.exec("SELECT id, definition AS name, origin AS bases FROM sequence");
     txn.commit();

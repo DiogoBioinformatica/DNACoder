@@ -15,7 +15,7 @@ struct SequenceRow {
 class Db {
 public:
     explicit Db(const std::string &conninfo);
-    std::vector<SequenceRow> fetchSequences();
+    std::vector<SequenceRow> fetch_sequences();
 
 private:
     pqxx::connection conn_;

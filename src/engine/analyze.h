@@ -10,6 +10,6 @@ struct Analysis {
     double gccontent = 0.0;
 };
 
-Analysis analyzeBase(const std::string& bases);
+Analysis analyze_base(const std::string& bases);
 
 }

@@ -11,7 +11,7 @@ struct LocalAgg {
     uint64_t checksum;
 };
 
-Analysis analyzeBase(const std::string& bases) {
+Analysis analyze_base(const std::string& bases) {
     const auto n = bases.size();
 
     auto agg = tbb::parallel_reduce(
