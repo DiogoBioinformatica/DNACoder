@@ -1,0 +1,8 @@
+/home/uriel/Dropbox/github/DNACoder/build/release/build/Release/CMakeFiles/proto_gen.dir
+/home/uriel/Dropbox/github/DNACoder/build/release/build/Release/CMakeFiles/engine.dir
+/home/uriel/Dropbox/github/DNACoder/build/release/build/Release/CMakeFiles/infra_db.dir
+/home/uriel/Dropbox/github/DNACoder/build/release/build/Release/CMakeFiles/api_lib.dir
+/home/uriel/Dropbox/github/DNACoder/build/release/build/Release/CMakeFiles/grpc_server.dir
+/home/uriel/Dropbox/github/DNACoder/build/release/build/Release/CMakeFiles/grpc_client.dir
+/home/uriel/Dropbox/github/DNACoder/build/release/build/Release/CMakeFiles/edit_cache.dir
+/home/uriel/Dropbox/github/DNACoder/build/release/build/Release/CMakeFiles/rebuild_cache.dir

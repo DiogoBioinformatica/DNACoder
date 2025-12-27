@@ -1,0 +1,22 @@
+# Build
+build/
+build-*/
+
+# Conan
+.conan2/
+conan.lock
+conanbuildinfo.*
+conaninfo.txt
+
+# VS Code
+.vscode/
+
+# Generated protobuf
+generated/
+*.pb.cc
+*.pb.h
+
+# OS
+*.swp
+*~
+.DS_Store

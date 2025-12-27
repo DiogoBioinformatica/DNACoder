@@ -1,0 +1,1 @@
+. "/home/uriel/Dropbox/github/DNACoder/build/release/build/Release/generators/deactivate_conanbuildenv-release-x86_64.sh"
