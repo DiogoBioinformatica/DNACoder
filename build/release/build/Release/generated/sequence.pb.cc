@@ -27,7 +27,14 @@ namespace dnacoder {
 
 inline constexpr AnalyzeRequest::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : include_bases_{false},
+      : ids_{},
+        _ids_cached_byte_size_{0},
+        name_like_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        include_bases_{false},
+        limit_{0u},
+        offset_{0u},
         _cached_size_{0} {}
 
 template <typename>
@@ -50,6 +57,12 @@ inline constexpr AnalyzeReply::Impl_::Impl_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
         bases_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        encoded_dump_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        packed_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
         id_{::uint64_t{0u}},
@@ -88,6 +101,10 @@ const ::uint32_t
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::dnacoder::AnalyzeRequest, _impl_.include_bases_),
+        PROTOBUF_FIELD_OFFSET(::dnacoder::AnalyzeRequest, _impl_.ids_),
+        PROTOBUF_FIELD_OFFSET(::dnacoder::AnalyzeRequest, _impl_.limit_),
+        PROTOBUF_FIELD_OFFSET(::dnacoder::AnalyzeRequest, _impl_.offset_),
+        PROTOBUF_FIELD_OFFSET(::dnacoder::AnalyzeRequest, _impl_.name_like_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::dnacoder::AnalyzeReply, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -102,12 +119,14 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::dnacoder::AnalyzeReply, _impl_.checksum_),
         PROTOBUF_FIELD_OFFSET(::dnacoder::AnalyzeReply, _impl_.gccontent_),
         PROTOBUF_FIELD_OFFSET(::dnacoder::AnalyzeReply, _impl_.bases_),
+        PROTOBUF_FIELD_OFFSET(::dnacoder::AnalyzeReply, _impl_.encoded_dump_),
+        PROTOBUF_FIELD_OFFSET(::dnacoder::AnalyzeReply, _impl_.packed_),
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::dnacoder::AnalyzeRequest)},
-        {9, -1, -1, sizeof(::dnacoder::AnalyzeReply)},
+        {13, -1, -1, sizeof(::dnacoder::AnalyzeReply)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::dnacoder::_AnalyzeRequest_default_instance_._instance,
@@ -115,19 +134,22 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_sequence_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\016sequence.proto\022\010dnacoder\"\'\n\016AnalyzeReq"
-    "uest\022\025\n\rinclude_bases\030\001 \001(\010\"l\n\014AnalyzeRe"
-    "ply\022\n\n\002id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\016\n\006length\030"
-    "\003 \001(\004\022\020\n\010checksum\030\004 \001(\004\022\021\n\tgccontent\030\005 \001"
-    "(\001\022\r\n\005bases\030\006 \001(\t2Y\n\017SequenceService\022F\n\020"
-    "AnalyzeSequences\022\030.dnacoder.AnalyzeReque"
-    "st\032\026.dnacoder.AnalyzeReply0\001b\006proto3"
+    "\n\016sequence.proto\022\010dnacoder\"f\n\016AnalyzeReq"
+    "uest\022\025\n\rinclude_bases\030\001 \001(\010\022\013\n\003ids\030\002 \003(\004"
+    "\022\r\n\005limit\030\003 \001(\r\022\016\n\006offset\030\004 \001(\r\022\021\n\tname_"
+    "like\030\005 \001(\t\"\222\001\n\014AnalyzeReply\022\n\n\002id\030\001 \001(\004\022"
+    "\014\n\004name\030\002 \001(\t\022\016\n\006length\030\003 \001(\004\022\020\n\010checksu"
+    "m\030\004 \001(\004\022\021\n\tgccontent\030\005 \001(\001\022\r\n\005bases\030\006 \001("
+    "\t\022\024\n\014encoded_dump\030\007 \001(\t\022\016\n\006packed\030\010 \001(\0142"
+    "Y\n\017SequenceService\022F\n\020AnalyzeSequences\022\030"
+    ".dnacoder.AnalyzeRequest\032\026.dnacoder.Anal"
+    "yzeReply0\001b\006proto3"
 };
 static ::absl::once_flag descriptor_table_sequence_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_sequence_2eproto = {
     false,
     false,
-    276,
+    378,
     descriptor_table_protodef_sequence_2eproto,
     "sequence.proto",
     &descriptor_table_sequence_2eproto_once,
@@ -152,19 +174,49 @@ AnalyzeRequest::AnalyzeRequest(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:dnacoder.AnalyzeRequest)
 }
+inline PROTOBUF_NDEBUG_INLINE AnalyzeRequest::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::dnacoder::AnalyzeRequest& from_msg)
+      : ids_{visibility, arena, from.ids_},
+        _ids_cached_byte_size_{0},
+        name_like_(arena, from.name_like_),
+        _cached_size_{0} {}
+
 AnalyzeRequest::AnalyzeRequest(
-    ::google::protobuf::Arena* arena, const AnalyzeRequest& from)
-    : AnalyzeRequest(arena) {
-  MergeFrom(from);
+    ::google::protobuf::Arena* arena,
+    const AnalyzeRequest& from)
+    : ::google::protobuf::Message(arena) {
+  AnalyzeRequest* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, include_bases_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, include_bases_),
+           offsetof(Impl_, offset_) -
+               offsetof(Impl_, include_bases_) +
+               sizeof(Impl_::offset_));
+
+  // @@protoc_insertion_point(copy_constructor:dnacoder.AnalyzeRequest)
 }
 inline PROTOBUF_NDEBUG_INLINE AnalyzeRequest::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
-      : _cached_size_{0} {}
+      : ids_{visibility, arena},
+        _ids_cached_byte_size_{0},
+        name_like_(arena),
+        _cached_size_{0} {}
 
 inline void AnalyzeRequest::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
-  _impl_.include_bases_ = {};
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, include_bases_),
+           0,
+           offsetof(Impl_, offset_) -
+               offsetof(Impl_, include_bases_) +
+               sizeof(Impl_::offset_));
 }
 AnalyzeRequest::~AnalyzeRequest() {
   // @@protoc_insertion_point(destructor:dnacoder.AnalyzeRequest)
@@ -173,6 +225,7 @@ AnalyzeRequest::~AnalyzeRequest() {
 }
 inline void AnalyzeRequest::SharedDtor() {
   ABSL_DCHECK(GetArena() == nullptr);
+  _impl_.name_like_.Destroy();
   _impl_.~Impl_();
 }
 
@@ -197,15 +250,15 @@ AnalyzeRequest::GetClassData() const {
   return _data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 0, 0, 2> AnalyzeRequest::_table_ = {
+const ::_pbi::TcParseTable<3, 5, 0, 41, 2> AnalyzeRequest::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    1, 0,  // max_field_number, fast_idx_mask
+    5, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967294,  // skipmap
+    4294967264,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    1,  // num_field_entries
+    5,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     &_AnalyzeRequest_default_instance_._instance,
@@ -215,18 +268,48 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> AnalyzeRequest::_table_ = {
     ::_pbi::TcParser::GetTable<::dnacoder::AnalyzeRequest>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
+    {::_pbi::TcParser::MiniParse, {}},
     // bool include_bases = 1;
     {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(AnalyzeRequest, _impl_.include_bases_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(AnalyzeRequest, _impl_.include_bases_)}},
+    // repeated uint64 ids = 2;
+    {::_pbi::TcParser::FastV64P1,
+     {18, 63, 0, PROTOBUF_FIELD_OFFSET(AnalyzeRequest, _impl_.ids_)}},
+    // uint32 limit = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(AnalyzeRequest, _impl_.limit_), 63>(),
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(AnalyzeRequest, _impl_.limit_)}},
+    // uint32 offset = 4;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(AnalyzeRequest, _impl_.offset_), 63>(),
+     {32, 63, 0, PROTOBUF_FIELD_OFFSET(AnalyzeRequest, _impl_.offset_)}},
+    // string name_like = 5;
+    {::_pbi::TcParser::FastUS1,
+     {42, 63, 0, PROTOBUF_FIELD_OFFSET(AnalyzeRequest, _impl_.name_like_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
     // bool include_bases = 1;
     {PROTOBUF_FIELD_OFFSET(AnalyzeRequest, _impl_.include_bases_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
+    // repeated uint64 ids = 2;
+    {PROTOBUF_FIELD_OFFSET(AnalyzeRequest, _impl_.ids_), 0, 0,
+    (0 | ::_fl::kFcRepeated | ::_fl::kPackedUInt64)},
+    // uint32 limit = 3;
+    {PROTOBUF_FIELD_OFFSET(AnalyzeRequest, _impl_.limit_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint32 offset = 4;
+    {PROTOBUF_FIELD_OFFSET(AnalyzeRequest, _impl_.offset_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // string name_like = 5;
+    {PROTOBUF_FIELD_OFFSET(AnalyzeRequest, _impl_.name_like_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }},
   // no aux_entries
   {{
+    "\27\0\0\0\0\11\0\0"
+    "dnacoder.AnalyzeRequest"
+    "name_like"
   }},
 };
 
@@ -237,7 +320,11 @@ PROTOBUF_NOINLINE void AnalyzeRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.include_bases_ = false;
+  _impl_.ids_.Clear();
+  _impl_.name_like_.ClearToEmpty();
+  ::memset(&_impl_.include_bases_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.offset_) -
+      reinterpret_cast<char*>(&_impl_.include_bases_)) + sizeof(_impl_.offset_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -253,6 +340,37 @@ PROTOBUF_NOINLINE void AnalyzeRequest::Clear() {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteBoolToArray(
         1, this->_internal_include_bases(), target);
+  }
+
+  // repeated uint64 ids = 2;
+  {
+    int byte_size = _impl_._ids_cached_byte_size_.Get();
+    if (byte_size > 0) {
+      target = stream->WriteUInt64Packed(
+          2, _internal_ids(), byte_size, target);
+    }
+  }
+
+  // uint32 limit = 3;
+  if (this->_internal_limit() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+        3, this->_internal_limit(), target);
+  }
+
+  // uint32 offset = 4;
+  if (this->_internal_offset() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+        4, this->_internal_offset(), target);
+  }
+
+  // string name_like = 5;
+  if (!this->_internal_name_like().empty()) {
+    const std::string& _s = this->_internal_name_like();
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "dnacoder.AnalyzeRequest.name_like");
+    target = stream->WriteStringMaybeAliased(5, _s, target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -272,9 +390,41 @@ PROTOBUF_NOINLINE void AnalyzeRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  ::_pbi::Prefetch5LinesFrom7Lines(reinterpret_cast<const void*>(this));
+  // repeated uint64 ids = 2;
+  {
+    std::size_t data_size = ::_pbi::WireFormatLite::UInt64Size(
+        this->_internal_ids())
+    ;
+    _impl_._ids_cached_byte_size_.Set(::_pbi::ToCachedSize(data_size));
+    std::size_t tag_size = data_size == 0
+        ? 0
+        : 1 + ::_pbi::WireFormatLite::Int32Size(
+                            static_cast<int32_t>(data_size))
+    ;
+    total_size += tag_size + data_size;
+  }
+  // string name_like = 5;
+  if (!this->_internal_name_like().empty()) {
+    total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                    this->_internal_name_like());
+  }
+
   // bool include_bases = 1;
   if (this->_internal_include_bases() != 0) {
     total_size += 2;
+  }
+
+  // uint32 limit = 3;
+  if (this->_internal_limit() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+        this->_internal_limit());
+  }
+
+  // uint32 offset = 4;
+  if (this->_internal_offset() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+        this->_internal_offset());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -289,8 +439,18 @@ void AnalyzeRequest::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  _this->_internal_mutable_ids()->MergeFrom(from._internal_ids());
+  if (!from._internal_name_like().empty()) {
+    _this->_internal_set_name_like(from._internal_name_like());
+  }
   if (from._internal_include_bases() != 0) {
     _this->_impl_.include_bases_ = from._impl_.include_bases_;
+  }
+  if (from._internal_limit() != 0) {
+    _this->_impl_.limit_ = from._impl_.limit_;
+  }
+  if (from._internal_offset() != 0) {
+    _this->_impl_.offset_ = from._impl_.offset_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -305,8 +465,17 @@ void AnalyzeRequest::CopyFrom(const AnalyzeRequest& from) {
 
 void AnalyzeRequest::InternalSwap(AnalyzeRequest* PROTOBUF_RESTRICT other) {
   using std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-        swap(_impl_.include_bases_, other->_impl_.include_bases_);
+  _impl_.ids_.InternalSwap(&other->_impl_.ids_);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_like_, &other->_impl_.name_like_, arena);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(AnalyzeRequest, _impl_.offset_)
+      + sizeof(AnalyzeRequest::_impl_.offset_)
+      - PROTOBUF_FIELD_OFFSET(AnalyzeRequest, _impl_.include_bases_)>(
+          reinterpret_cast<char*>(&_impl_.include_bases_),
+          reinterpret_cast<char*>(&other->_impl_.include_bases_));
 }
 
 ::google::protobuf::Metadata AnalyzeRequest::GetMetadata() const {
@@ -328,6 +497,8 @@ inline PROTOBUF_NDEBUG_INLINE AnalyzeReply::Impl_::Impl_(
     const Impl_& from, const ::dnacoder::AnalyzeReply& from_msg)
       : name_(arena, from.name_),
         bases_(arena, from.bases_),
+        encoded_dump_(arena, from.encoded_dump_),
+        packed_(arena, from.packed_),
         _cached_size_{0} {}
 
 AnalyzeReply::AnalyzeReply(
@@ -354,6 +525,8 @@ inline PROTOBUF_NDEBUG_INLINE AnalyzeReply::Impl_::Impl_(
     ::google::protobuf::Arena* arena)
       : name_(arena),
         bases_(arena),
+        encoded_dump_(arena),
+        packed_(arena),
         _cached_size_{0} {}
 
 inline void AnalyzeReply::SharedCtor(::_pb::Arena* arena) {
@@ -374,6 +547,8 @@ inline void AnalyzeReply::SharedDtor() {
   ABSL_DCHECK(GetArena() == nullptr);
   _impl_.name_.Destroy();
   _impl_.bases_.Destroy();
+  _impl_.encoded_dump_.Destroy();
+  _impl_.packed_.Destroy();
   _impl_.~Impl_();
 }
 
@@ -398,15 +573,15 @@ AnalyzeReply::GetClassData() const {
   return _data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 6, 0, 39, 2> AnalyzeReply::_table_ = {
+const ::_pbi::TcParseTable<3, 8, 0, 59, 2> AnalyzeReply::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    6, 56,  // max_field_number, fast_idx_mask
+    8, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967232,  // skipmap
+    4294967040,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    6,  // num_field_entries
+    8,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     &_AnalyzeReply_default_instance_._instance,
@@ -416,7 +591,9 @@ const ::_pbi::TcParseTable<3, 6, 0, 39, 2> AnalyzeReply::_table_ = {
     ::_pbi::TcParser::GetTable<::dnacoder::AnalyzeReply>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    {::_pbi::TcParser::MiniParse, {}},
+    // bytes packed = 8;
+    {::_pbi::TcParser::FastBS1,
+     {66, 63, 0, PROTOBUF_FIELD_OFFSET(AnalyzeReply, _impl_.packed_)}},
     // uint64 id = 1;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(AnalyzeReply, _impl_.id_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(AnalyzeReply, _impl_.id_)}},
@@ -435,7 +612,9 @@ const ::_pbi::TcParseTable<3, 6, 0, 39, 2> AnalyzeReply::_table_ = {
     // string bases = 6;
     {::_pbi::TcParser::FastUS1,
      {50, 63, 0, PROTOBUF_FIELD_OFFSET(AnalyzeReply, _impl_.bases_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // string encoded_dump = 7;
+    {::_pbi::TcParser::FastUS1,
+     {58, 63, 0, PROTOBUF_FIELD_OFFSET(AnalyzeReply, _impl_.encoded_dump_)}},
   }}, {{
     65535, 65535
   }}, {{
@@ -457,13 +636,20 @@ const ::_pbi::TcParseTable<3, 6, 0, 39, 2> AnalyzeReply::_table_ = {
     // string bases = 6;
     {PROTOBUF_FIELD_OFFSET(AnalyzeReply, _impl_.bases_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // string encoded_dump = 7;
+    {PROTOBUF_FIELD_OFFSET(AnalyzeReply, _impl_.encoded_dump_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // bytes packed = 8;
+    {PROTOBUF_FIELD_OFFSET(AnalyzeReply, _impl_.packed_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kBytes | ::_fl::kRepAString)},
   }},
   // no aux_entries
   {{
-    "\25\0\4\0\0\0\5\0"
+    "\25\0\4\0\0\0\5\14\0\0\0\0\0\0\0\0"
     "dnacoder.AnalyzeReply"
     "name"
     "bases"
+    "encoded_dump"
   }},
 };
 
@@ -476,6 +662,8 @@ PROTOBUF_NOINLINE void AnalyzeReply::Clear() {
 
   _impl_.name_.ClearToEmpty();
   _impl_.bases_.ClearToEmpty();
+  _impl_.encoded_dump_.ClearToEmpty();
+  _impl_.packed_.ClearToEmpty();
   ::memset(&_impl_.id_, 0, static_cast<::size_t>(
       reinterpret_cast<char*>(&_impl_.gccontent_) -
       reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.gccontent_));
@@ -538,6 +726,20 @@ PROTOBUF_NOINLINE void AnalyzeReply::Clear() {
     target = stream->WriteStringMaybeAliased(6, _s, target);
   }
 
+  // string encoded_dump = 7;
+  if (!this->_internal_encoded_dump().empty()) {
+    const std::string& _s = this->_internal_encoded_dump();
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "dnacoder.AnalyzeReply.encoded_dump");
+    target = stream->WriteStringMaybeAliased(7, _s, target);
+  }
+
+  // bytes packed = 8;
+  if (!this->_internal_packed().empty()) {
+    const std::string& _s = this->_internal_packed();
+    target = stream->WriteBytesMaybeAliased(8, _s, target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target =
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -566,6 +768,18 @@ PROTOBUF_NOINLINE void AnalyzeReply::Clear() {
   if (!this->_internal_bases().empty()) {
     total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
                                     this->_internal_bases());
+  }
+
+  // string encoded_dump = 7;
+  if (!this->_internal_encoded_dump().empty()) {
+    total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                    this->_internal_encoded_dump());
+  }
+
+  // bytes packed = 8;
+  if (!this->_internal_packed().empty()) {
+    total_size += 1 + ::google::protobuf::internal::WireFormatLite::BytesSize(
+                                    this->_internal_packed());
   }
 
   // uint64 id = 1;
@@ -614,6 +828,12 @@ void AnalyzeReply::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::go
   if (!from._internal_bases().empty()) {
     _this->_internal_set_bases(from._internal_bases());
   }
+  if (!from._internal_encoded_dump().empty()) {
+    _this->_internal_set_encoded_dump(from._internal_encoded_dump());
+  }
+  if (!from._internal_packed().empty()) {
+    _this->_internal_set_packed(from._internal_packed());
+  }
   if (from._internal_id() != 0) {
     _this->_impl_.id_ = from._impl_.id_;
   }
@@ -649,6 +869,8 @@ void AnalyzeReply::InternalSwap(AnalyzeReply* PROTOBUF_RESTRICT other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, &other->_impl_.name_, arena);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.bases_, &other->_impl_.bases_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.encoded_dump_, &other->_impl_.encoded_dump_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.packed_, &other->_impl_.packed_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(AnalyzeReply, _impl_.gccontent_)
       + sizeof(AnalyzeReply::_impl_.gccontent_)

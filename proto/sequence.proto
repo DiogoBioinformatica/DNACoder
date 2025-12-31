@@ -7,7 +7,11 @@ service SequenceService {
 }
 
 message AnalyzeRequest {
-  bool include_bases = 1;  // opcional: retornar bases no reply
+  bool include_bases = 1;
+  repeated uint64 ids = 2;
+  uint32 limit = 3;
+  uint32 offset = 4;
+  string name_like = 5;
 }
 
 message AnalyzeReply {
@@ -17,4 +21,6 @@ message AnalyzeReply {
   uint64 checksum = 4;     // exemplo de resultado
   double gccontent = 5;   // exemplo de resultado
   string bases = 6;        // opcional (pode ser grande!)
+  string encoded_dump = 7; // <-- texto do show()/to_string()
+  bytes packed = 8;        // <-- opcional: binário compacto real
 }

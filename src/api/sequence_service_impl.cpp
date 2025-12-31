@@ -1,8 +1,11 @@
-#include "sequence_service_impl.h"
-#include "../engine/analyze.h"
 #include <mutex>
 #include <tbb/parallel_for.h>
 #include <tbb/blocked_range.h>
+#include <cstring>
+
+#include "sequence_service_impl.h"
+#include "../engine/analyze.h"
+#include "../engine/dna_encoder.h"
 
 namespace api {
 
@@ -11,19 +14,18 @@ grpc::Status SequenceServiceImpl::AnalyzeSequences(
     const dnacoder::AnalyzeRequest* request,
     grpc::ServerWriter<dnacoder::AnalyzeReply>* writer) {
 
-  const bool include_bases = request->include_bases();
-  auto rows = db_.fetch_sequences(); // id=1 fixo no db.cpp
-
-  std::mutex write_mtx;
-
-  tbb::parallel_for(
-    tbb::blocked_range<size_t>(0, rows.size(), 1),
+      const bool include_bases = request->include_bases();
+      auto rows = db_.fetch_sequences(); // id=1 fixo no db.cpp
+      std::mutex write_mtx;
+      tbb::parallel_for(
+        tbb::blocked_range<size_t>(0, rows.size(), 1),
     [&](const tbb::blocked_range<size_t>& r) {
       for (size_t i = r.begin(); i < r.end(); ++i) {
         if (context->IsCancelled()) return;
 
         const auto& s = rows[i];
         auto a = engine::analyze_base(s.bases);
+        
 
         dnacoder::AnalyzeReply reply;
         reply.set_id(s.id);
@@ -34,6 +36,16 @@ grpc::Status SequenceServiceImpl::AnalyzeSequences(
         if (include_bases) reply.set_bases(s.bases);
 
         std::lock_guard<std::mutex> lk(write_mtx);
+
+        //reply.set_bases_per_word(32);
+
+        engine::DNAEncoder encoder;
+        encoder.encode(s.bases);
+
+        encoder.show(std::cout);
+
+        reply.set_encoded_dump(encoder.to_string());
+
         writer->Write(reply);
       }
     });

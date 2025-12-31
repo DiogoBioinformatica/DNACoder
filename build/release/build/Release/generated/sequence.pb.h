@@ -193,8 +193,46 @@ class AnalyzeRequest final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
+    kIdsFieldNumber = 2,
+    kNameLikeFieldNumber = 5,
     kIncludeBasesFieldNumber = 1,
+    kLimitFieldNumber = 3,
+    kOffsetFieldNumber = 4,
   };
+  // repeated uint64 ids = 2;
+  int ids_size() const;
+  private:
+  int _internal_ids_size() const;
+
+  public:
+  void clear_ids() ;
+  ::uint64_t ids(int index) const;
+  void set_ids(int index, ::uint64_t value);
+  void add_ids(::uint64_t value);
+  const ::google::protobuf::RepeatedField<::uint64_t>& ids() const;
+  ::google::protobuf::RepeatedField<::uint64_t>* mutable_ids();
+
+  private:
+  const ::google::protobuf::RepeatedField<::uint64_t>& _internal_ids() const;
+  ::google::protobuf::RepeatedField<::uint64_t>* _internal_mutable_ids();
+
+  public:
+  // string name_like = 5;
+  void clear_name_like() ;
+  const std::string& name_like() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_name_like(Arg_&& arg, Args_... args);
+  std::string* mutable_name_like();
+  PROTOBUF_NODISCARD std::string* release_name_like();
+  void set_allocated_name_like(std::string* value);
+
+  private:
+  const std::string& _internal_name_like() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name_like(
+      const std::string& value);
+  std::string* _internal_mutable_name_like();
+
+  public:
   // bool include_bases = 1;
   void clear_include_bases() ;
   bool include_bases() const;
@@ -205,13 +243,33 @@ class AnalyzeRequest final : public ::google::protobuf::Message
   void _internal_set_include_bases(bool value);
 
   public:
+  // uint32 limit = 3;
+  void clear_limit() ;
+  ::uint32_t limit() const;
+  void set_limit(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_limit() const;
+  void _internal_set_limit(::uint32_t value);
+
+  public:
+  // uint32 offset = 4;
+  void clear_offset() ;
+  ::uint32_t offset() const;
+  void set_offset(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_offset() const;
+  void _internal_set_offset(::uint32_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:dnacoder.AnalyzeRequest)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 1, 0,
-      0, 2>
+      3, 5, 0,
+      41, 2>
       _table_;
 
   static constexpr const void* _raw_default_instance_ =
@@ -231,7 +289,12 @@ class AnalyzeRequest final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const AnalyzeRequest& from_msg);
+    ::google::protobuf::RepeatedField<::uint64_t> ids_;
+    mutable ::google::protobuf::internal::CachedSize _ids_cached_byte_size_;
+    ::google::protobuf::internal::ArenaStringPtr name_like_;
     bool include_bases_;
+    ::uint32_t limit_;
+    ::uint32_t offset_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -366,6 +429,8 @@ class AnalyzeReply final : public ::google::protobuf::Message
   enum : int {
     kNameFieldNumber = 2,
     kBasesFieldNumber = 6,
+    kEncodedDumpFieldNumber = 7,
+    kPackedFieldNumber = 8,
     kIdFieldNumber = 1,
     kLengthFieldNumber = 3,
     kChecksumFieldNumber = 4,
@@ -401,6 +466,38 @@ class AnalyzeReply final : public ::google::protobuf::Message
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_bases(
       const std::string& value);
   std::string* _internal_mutable_bases();
+
+  public:
+  // string encoded_dump = 7;
+  void clear_encoded_dump() ;
+  const std::string& encoded_dump() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_encoded_dump(Arg_&& arg, Args_... args);
+  std::string* mutable_encoded_dump();
+  PROTOBUF_NODISCARD std::string* release_encoded_dump();
+  void set_allocated_encoded_dump(std::string* value);
+
+  private:
+  const std::string& _internal_encoded_dump() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_encoded_dump(
+      const std::string& value);
+  std::string* _internal_mutable_encoded_dump();
+
+  public:
+  // bytes packed = 8;
+  void clear_packed() ;
+  const std::string& packed() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_packed(Arg_&& arg, Args_... args);
+  std::string* mutable_packed();
+  PROTOBUF_NODISCARD std::string* release_packed();
+  void set_allocated_packed(std::string* value);
+
+  private:
+  const std::string& _internal_packed() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_packed(
+      const std::string& value);
+  std::string* _internal_mutable_packed();
 
   public:
   // uint64 id = 1;
@@ -448,8 +545,8 @@ class AnalyzeReply final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 6, 0,
-      39, 2>
+      3, 8, 0,
+      59, 2>
       _table_;
 
   static constexpr const void* _raw_default_instance_ =
@@ -471,6 +568,8 @@ class AnalyzeReply final : public ::google::protobuf::Message
                           const AnalyzeReply& from_msg);
     ::google::protobuf::internal::ArenaStringPtr name_;
     ::google::protobuf::internal::ArenaStringPtr bases_;
+    ::google::protobuf::internal::ArenaStringPtr encoded_dump_;
+    ::google::protobuf::internal::ArenaStringPtr packed_;
     ::uint64_t id_;
     ::uint64_t length_;
     ::uint64_t checksum_;
@@ -518,6 +617,145 @@ inline bool AnalyzeRequest::_internal_include_bases() const {
 inline void AnalyzeRequest::_internal_set_include_bases(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.include_bases_ = value;
+}
+
+// repeated uint64 ids = 2;
+inline int AnalyzeRequest::_internal_ids_size() const {
+  return _internal_ids().size();
+}
+inline int AnalyzeRequest::ids_size() const {
+  return _internal_ids_size();
+}
+inline void AnalyzeRequest::clear_ids() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ids_.Clear();
+}
+inline ::uint64_t AnalyzeRequest::ids(int index) const {
+  // @@protoc_insertion_point(field_get:dnacoder.AnalyzeRequest.ids)
+  return _internal_ids().Get(index);
+}
+inline void AnalyzeRequest::set_ids(int index, ::uint64_t value) {
+  _internal_mutable_ids()->Set(index, value);
+  // @@protoc_insertion_point(field_set:dnacoder.AnalyzeRequest.ids)
+}
+inline void AnalyzeRequest::add_ids(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _internal_mutable_ids()->Add(value);
+  // @@protoc_insertion_point(field_add:dnacoder.AnalyzeRequest.ids)
+}
+inline const ::google::protobuf::RepeatedField<::uint64_t>& AnalyzeRequest::ids() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:dnacoder.AnalyzeRequest.ids)
+  return _internal_ids();
+}
+inline ::google::protobuf::RepeatedField<::uint64_t>* AnalyzeRequest::mutable_ids()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:dnacoder.AnalyzeRequest.ids)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_ids();
+}
+inline const ::google::protobuf::RepeatedField<::uint64_t>&
+AnalyzeRequest::_internal_ids() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.ids_;
+}
+inline ::google::protobuf::RepeatedField<::uint64_t>* AnalyzeRequest::_internal_mutable_ids() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.ids_;
+}
+
+// uint32 limit = 3;
+inline void AnalyzeRequest::clear_limit() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.limit_ = 0u;
+}
+inline ::uint32_t AnalyzeRequest::limit() const {
+  // @@protoc_insertion_point(field_get:dnacoder.AnalyzeRequest.limit)
+  return _internal_limit();
+}
+inline void AnalyzeRequest::set_limit(::uint32_t value) {
+  _internal_set_limit(value);
+  // @@protoc_insertion_point(field_set:dnacoder.AnalyzeRequest.limit)
+}
+inline ::uint32_t AnalyzeRequest::_internal_limit() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.limit_;
+}
+inline void AnalyzeRequest::_internal_set_limit(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.limit_ = value;
+}
+
+// uint32 offset = 4;
+inline void AnalyzeRequest::clear_offset() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.offset_ = 0u;
+}
+inline ::uint32_t AnalyzeRequest::offset() const {
+  // @@protoc_insertion_point(field_get:dnacoder.AnalyzeRequest.offset)
+  return _internal_offset();
+}
+inline void AnalyzeRequest::set_offset(::uint32_t value) {
+  _internal_set_offset(value);
+  // @@protoc_insertion_point(field_set:dnacoder.AnalyzeRequest.offset)
+}
+inline ::uint32_t AnalyzeRequest::_internal_offset() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.offset_;
+}
+inline void AnalyzeRequest::_internal_set_offset(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.offset_ = value;
+}
+
+// string name_like = 5;
+inline void AnalyzeRequest::clear_name_like() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.name_like_.ClearToEmpty();
+}
+inline const std::string& AnalyzeRequest::name_like() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:dnacoder.AnalyzeRequest.name_like)
+  return _internal_name_like();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void AnalyzeRequest::set_name_like(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.name_like_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:dnacoder.AnalyzeRequest.name_like)
+}
+inline std::string* AnalyzeRequest::mutable_name_like() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_name_like();
+  // @@protoc_insertion_point(field_mutable:dnacoder.AnalyzeRequest.name_like)
+  return _s;
+}
+inline const std::string& AnalyzeRequest::_internal_name_like() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.name_like_.Get();
+}
+inline void AnalyzeRequest::_internal_set_name_like(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.name_like_.Set(value, GetArena());
+}
+inline std::string* AnalyzeRequest::_internal_mutable_name_like() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.name_like_.Mutable( GetArena());
+}
+inline std::string* AnalyzeRequest::release_name_like() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:dnacoder.AnalyzeRequest.name_like)
+  return _impl_.name_like_.Release();
+}
+inline void AnalyzeRequest::set_allocated_name_like(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.name_like_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.name_like_.IsDefault()) {
+          _impl_.name_like_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:dnacoder.AnalyzeRequest.name_like)
 }
 
 // -------------------------------------------------------------------
@@ -710,6 +948,106 @@ inline void AnalyzeReply::set_allocated_bases(std::string* value) {
         }
   #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:dnacoder.AnalyzeReply.bases)
+}
+
+// string encoded_dump = 7;
+inline void AnalyzeReply::clear_encoded_dump() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.encoded_dump_.ClearToEmpty();
+}
+inline const std::string& AnalyzeReply::encoded_dump() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:dnacoder.AnalyzeReply.encoded_dump)
+  return _internal_encoded_dump();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void AnalyzeReply::set_encoded_dump(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.encoded_dump_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:dnacoder.AnalyzeReply.encoded_dump)
+}
+inline std::string* AnalyzeReply::mutable_encoded_dump() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_encoded_dump();
+  // @@protoc_insertion_point(field_mutable:dnacoder.AnalyzeReply.encoded_dump)
+  return _s;
+}
+inline const std::string& AnalyzeReply::_internal_encoded_dump() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.encoded_dump_.Get();
+}
+inline void AnalyzeReply::_internal_set_encoded_dump(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.encoded_dump_.Set(value, GetArena());
+}
+inline std::string* AnalyzeReply::_internal_mutable_encoded_dump() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.encoded_dump_.Mutable( GetArena());
+}
+inline std::string* AnalyzeReply::release_encoded_dump() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:dnacoder.AnalyzeReply.encoded_dump)
+  return _impl_.encoded_dump_.Release();
+}
+inline void AnalyzeReply::set_allocated_encoded_dump(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.encoded_dump_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.encoded_dump_.IsDefault()) {
+          _impl_.encoded_dump_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:dnacoder.AnalyzeReply.encoded_dump)
+}
+
+// bytes packed = 8;
+inline void AnalyzeReply::clear_packed() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.packed_.ClearToEmpty();
+}
+inline const std::string& AnalyzeReply::packed() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:dnacoder.AnalyzeReply.packed)
+  return _internal_packed();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void AnalyzeReply::set_packed(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.packed_.SetBytes(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:dnacoder.AnalyzeReply.packed)
+}
+inline std::string* AnalyzeReply::mutable_packed() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_packed();
+  // @@protoc_insertion_point(field_mutable:dnacoder.AnalyzeReply.packed)
+  return _s;
+}
+inline const std::string& AnalyzeReply::_internal_packed() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.packed_.Get();
+}
+inline void AnalyzeReply::_internal_set_packed(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.packed_.Set(value, GetArena());
+}
+inline std::string* AnalyzeReply::_internal_mutable_packed() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.packed_.Mutable( GetArena());
+}
+inline std::string* AnalyzeReply::release_packed() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:dnacoder.AnalyzeReply.packed)
+  return _impl_.packed_.Release();
+}
+inline void AnalyzeReply::set_allocated_packed(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.packed_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.packed_.IsDefault()) {
+          _impl_.packed_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:dnacoder.AnalyzeReply.packed)
 }
 
 #ifdef __GNUC__

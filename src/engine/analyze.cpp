@@ -6,6 +6,8 @@
 
 namespace engine {
 struct LocalAgg {
+    
+
     uint64_t length;
     uint64_t gccount;
     uint64_t checksum;

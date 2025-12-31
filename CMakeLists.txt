@@ -41,7 +41,7 @@ add_library(proto_gen
 target_include_directories(proto_gen PUBLIC ${GEN_DIR})
 target_link_libraries(proto_gen PUBLIC gRPC::grpc++ protobuf::libprotobuf)
 
-add_library(engine src/engine/analyze.cpp)
+add_library(engine src/engine/analyze.cpp src/engine/dna_encoder.cpp)
 target_include_directories(engine PUBLIC src)
 target_link_libraries(engine PUBLIC TBB::tbb)
 

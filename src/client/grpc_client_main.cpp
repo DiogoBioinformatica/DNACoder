@@ -1,6 +1,9 @@
 #include <grpcpp/grpcpp.h>
 #include <iostream>
 #include <string>
+#include <cstring>
+#include <iomanip>
+
 
 #include "sequence.grpc.pb.h"
 
@@ -36,6 +39,17 @@ int main(int argc, char** argv) {
     if (include_bases) std::cout << " bases=" << reply.bases();
     std::cout << "\n";
   }
+
+  const std::string& packed = reply.packed();
+  const size_t n_words = packed.size() / sizeof(uint64_t);
+  std::cout << " packed_words=" << n_words;
+
+  if (n_words > 0) {
+    uint64_t w0 = 0;
+    std::memcpy(&w0, packed.data(), sizeof(uint64_t));
+    std::cout << " word0=0x" << std::hex << std::setw(16) << std::setfill('0') << w0 << std::dec;
+  }
+  std::cout << "\n";
 
   grpc::Status status = reader->Finish();
   if (!status.ok()) {
